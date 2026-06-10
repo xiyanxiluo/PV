@@ -1,0 +1,15 @@
+{
+  "name": "pv-project-manager",
+  "version": "2.0.0",
+  "description": "Photovoltaic project information form with backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0"
+  }
+}

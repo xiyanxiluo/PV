@@ -10,6 +10,16 @@ desktop.ini
 .vscode/
 .idea/
 
+# Dependencies
+node_modules/
+
+# Database
+pv_data.json
+*.db
+
+# Environment
+.env
+
 # Temp
 *.tmp
 *.log
