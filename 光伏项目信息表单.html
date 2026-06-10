@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光伏项目信息表单 - Photovoltaic Project Form</title>
+    <!-- UI/UX Pro Max Design System: Cyan Energy + Professional Engineering -->
+    <style>
+        /* =====================================================================
+           CSS DESIGN TOKENS — UI/UX Pro Max
+           Style: Data-Dense Professional + Clean Energy Cyan/Green
+           ===================================================================== */
+        :root {
+            /* Primary palette — Cyan energy */
+            --cyan-50:  #ecfeff;
+            --cyan-100: #cffafe;
+            --cyan-200: #a5f3fc;
+            --cyan-400: #22d3ee;
+            --cyan-500: #06b6d4;
+            --cyan-600: #0891b2;
+            --cyan-700: #0e7490;
+            --cyan-800: #155e75;
+            --cyan-900: #164e63;
+
+            /* Accent — Clean green */
+            --green-50:  #ecfdf5;
+            --green-100: #d1fae5;
+            --green-500: #22c55e;
+            --green-600: #16a34a;
+            --green-700: #15803d;
+
+            /* Neutrals */
+            --gray-50:  #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+
+            /* Semantic */
+            --danger:  #ef4444;
+            --danger-hover: #dc2626;
+            --warning: #f59e0b;
+
+            /* Spacing scale */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+
+            /* Radius */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 20px;
+
+            /* Shadows — subtle depth hierarchy */
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
+
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-base: 200ms ease;
+            --transition-smooth: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* =====================================================================
+           RESET & BASE
+           ===================================================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: linear-gradient(180deg, #f0f9fa 0%, #f8fafc 30%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* =====================================================================
+           HEADER — Subtle glass effect
+           ===================================================================== */
+        .app-header {
+            background: linear-gradient(135deg, var(--cyan-700) 0%, var(--cyan-800) 50%, var(--cyan-900) 100%);
+            color: #fff;
+            padding: var(--space-lg) 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 16px rgba(8, 145, 178, 0.25);
+            backdrop-filter: blur(8px);
+        }
+        .app-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .app-header h1 svg { flex-shrink: 0; }
+        .app-header .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.78;
+            margin-top: 2px;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+        }
+
+        /* =====================================================================
+           CONTAINER
+           ===================================================================== */
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: var(--space-lg) 20px 72px;
+        }
+
+        /* =====================================================================
+           TOOLBAR
+           ===================================================================== */
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding: var(--space-md);
+            background: #fff;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+        .toolbar .status {
+            margin-left: auto;
+            font-size: 0.82rem;
+            color: var(--gray-500);
+            transition: color var(--transition-base);
+        }
+        .toolbar .status.success { color: var(--green-600); }
+        .toolbar .status.error { color: var(--danger); }
+
+        /* =====================================================================
+           BUTTONS — cursor-pointer, smooth transitions, focus rings
+           ===================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            position: relative;
+        }
+        .btn:focus-visible {
+            outline: 3px solid var(--cyan-400);
+            outline-offset: 2px;
+        }
+        .btn:active { transform: scale(0.97); }
+
+        /* Primary action */
+        .btn-primary {
+            background: var(--cyan-600);
+            color: #fff;
+            box-shadow: var(--shadow-xs);
+        }
+        .btn-primary:hover {
+            background: var(--cyan-700);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        /* Accent / CTA */
+        .btn-accent {
+            background: var(--green-500);
+            color: #fff;
+            box-shadow: var(--shadow-xs);
+        }
+        .btn-accent:hover {
+            background: var(--green-600);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        /* Outline */
+        .btn-outline {
+            background: #fff;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        .btn-outline:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+            color: var(--gray-900);
+        }
+
+        /* Danger */
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover { background: var(--danger-hover); }
+
+        /* =====================================================================
+           SECTION CARDS — clean elevation + border
+           ===================================================================== */
+        .section {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl) var(--space-xl);
+            margin-bottom: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition-base);
+        }
+        .section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Section Title */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--cyan-800);
+            margin-bottom: var(--space-lg);
+            padding-bottom: 14px;
+            border-bottom: 2px solid var(--cyan-100);
+        }
+        .section-title svg { flex-shrink: 0; }
+        .section-title.accent {
+            color: var(--green-700);
+            border-bottom-color: var(--green-100);
+        }
+
+        /* =====================================================================
+           FORM GRID SYSTEM
+           ===================================================================== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md) var(--space-lg);
+        }
+        .form-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .form-grid.cols-1 { grid-template-columns: 1fr; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 0; /* prevent grid blowout */
+        }
+        .form-group.span-full { grid-column: 1 / -1; }
+
+        /* =====================================================================
+           LABELS — always visible, never placeholder-only
+           ===================================================================== */
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-bottom: 5px;
+            letter-spacing: 0.01em;
+        }
+        .form-group label .unit {
+            font-weight: 400;
+            color: var(--gray-400);
+        }
+        .form-group label .required {
+            color: var(--danger);
+            margin-left: 1px;
+        }
+
+        /* =====================================================================
+           INPUTS / SELECTS / TEXTAREAS — accessible focus rings
+           ===================================================================== */
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-family: inherit;
+            color: var(--gray-800);
+            background: #fafbfc;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cyan-500);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+            background: #fff;
+        }
+        .form-group input:focus-visible,
+        .form-group select:focus-visible,
+        .form-group textarea:focus-visible {
+            outline: none;
+            border-color: var(--cyan-500);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--gray-400);
+        }
+        .form-group input[readonly] {
+            background: #f1f5f9;
+            color: var(--gray-600);
+        }
+        .form-group textarea {
+            min-height: 85px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* Custom select arrow */
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 38px;
+        }
+        .form-group select:focus {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        }
+
+        /* Number input spinner visibility */
+        .form-group input[type="number"] { -moz-appearance: textfield; }
+        .form-group input[type="number"]::-webkit-inner-spin-button,
+        .form-group input[type="number"]::-webkit-outer-spin-button { opacity: 1; }
+        .form-group input[type="date"] { cursor: pointer; }
+
+        /* =====================================================================
+           CUSTOM SELECT-WITH-INPUT COMPONENT
+           ===================================================================== */
+        .custom-select-wrap { position: relative; }
+        .custom-select-wrap select { width: 100%; }
+        .custom-select-wrap .custom-input {
+            margin-top: var(--space-sm);
+            display: none;
+        }
+        .custom-select-wrap .custom-input.show { display: block; }
+        .field-hint {
+            font-size: 0.72rem;
+            color: var(--gray-400);
+            margin-top: 3px;
+            line-height: 1.3;
+        }
+
+        /* =====================================================================
+           FOUR-COLUMN LAYOUT for sections 3-6
+           ===================================================================== */
+        .four-col-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        .four-col-row .section { margin-bottom: 0; }
+        .four-col-row .section { padding: var(--space-md) var(--space-md); }
+        .four-col-row .section-title { font-size: 0.9rem; margin-bottom: 12px; padding-bottom: 8px; }
+        .four-col-row .form-group label { font-size: 0.72rem; }
+        .four-col-row .form-group input,
+        .four-col-row .form-group select,
+        .four-col-row .form-group textarea { font-size: 0.78rem; padding: 7px 9px; }
+        .four-col-row .form-group select { padding-right: 30px; background-position: right 8px center; }
+        .four-col-row .field-hint { font-size: 0.66rem; }
+
+        /* =====================================================================
+           DYNAMIC ENTRIES — Inverter & Cable multi-entry cards
+           ===================================================================== */
+        .entries-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .entry-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            position: relative;
+        }
+        .entry-card .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .entry-card .entry-index {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--gray-500);
+        }
+        .entry-card .btn-remove-entry {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #fecaca;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 1;
+            transition: all var(--transition-fast);
+            padding: 0;
+        }
+        .entry-card .btn-remove-entry:hover { background: #fef2f2; border-color: #fca5a5; }
+        .entry-card .entry-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .entry-card .entry-fields .ef-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        .entry-card .entry-fields label {
+            font-size: 0.68rem !important;
+            font-weight: 600;
+            color: var(--gray-500) !important;
+        }
+        .entry-card .entry-fields input,
+        .entry-card .entry-fields select {
+            font-size: 0.76rem !important;
+            padding: 5px 8px !important;
+            border-radius: 4px !important;
+        }
+        .entry-card .entry-fields select {
+            padding-right: 26px !important;
+            background-position: right 6px center !important;
+        }
+        .btn-add-entry {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+            padding: 7px;
+            border: 1px dashed var(--gray-300);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--cyan-600);
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            justify-content: center;
+        }
+        .btn-add-entry:hover {
+            border-color: var(--cyan-400);
+            background: var(--cyan-50);
+            border-style: solid;
+        }
+        .btn-add-entry:focus-visible {
+            outline: 3px solid var(--cyan-400);
+            outline-offset: 2px;
+        }
+
+        /* =====================================================================
+           PROJECT MANAGEMENT BAR
+           ===================================================================== */
+        .project-bar {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md) var(--space-lg);
+            margin-bottom: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        .project-bar .pb-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .project-bar .pb-current-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .project-bar .pb-current-label svg { flex-shrink: 0; }
+        .project-bar select {
+            padding: 7px 32px 7px 10px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-family: inherit;
+            color: var(--gray-800);
+            background: #fafbfc;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            min-width: 180px;
+            max-width: 300px;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .project-bar select:focus {
+            outline: none;
+            border-color: var(--cyan-500);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+        }
+        .project-bar .pb-search {
+            flex: 1;
+            min-width: 160px;
+            max-width: 300px;
+            padding: 7px 10px 7px 32px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-family: inherit;
+            color: var(--gray-800);
+            background: #fafbfc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") 10px center no-repeat;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .project-bar .pb-search:focus {
+            outline: none;
+            border-color: var(--cyan-500);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+            background-color: #fff;
+        }
+        .project-bar .pb-search::placeholder { color: var(--gray-400); }
+        .project-bar .pb-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .project-bar .pb-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            background: #fff;
+            color: var(--gray-700);
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        .project-bar .pb-btn:hover { background: var(--gray-50); border-color: var(--gray-400); }
+        .project-bar .pb-btn:focus-visible { outline: 3px solid var(--cyan-400); outline-offset: 2px; }
+        .project-bar .pb-btn.pb-save {
+            background: var(--cyan-600);
+            color: #fff;
+            border-color: var(--cyan-600);
+        }
+        .project-bar .pb-btn.pb-save:hover { background: var(--cyan-700); }
+        .project-bar .pb-btn.pb-delete { color: var(--danger); }
+        .project-bar .pb-btn.pb-delete:hover { background: #fef2f2; border-color: #fecaca; color: var(--danger-hover); }
+        .project-bar .pb-btn.pb-new {
+            background: var(--green-500);
+            color: #fff;
+            border-color: var(--green-500);
+        }
+        .project-bar .pb-btn.pb-new:hover { background: var(--green-600); }
+
+        /* Project list panel */
+        .project-list-wrap {
+            margin-top: 14px;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 12px;
+            display: none;
+        }
+        .project-list-wrap.open { display: block; }
+        .project-list-wrap .list-header {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .project-list-wrap .list-header .count { font-weight: 600; }
+        .project-list {
+            max-height: 260px;
+            overflow-y: auto;
+            display: grid;
+            gap: 6px;
+        }
+        .project-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: #fafbfc;
+        }
+        .project-item:hover { background: var(--cyan-50); border-color: var(--cyan-200); }
+        .project-item.active { background: var(--cyan-50); border-color: var(--cyan-400); box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.2); }
+        .project-item .pi-info { flex: 1; min-width: 0; }
+        .project-item .pi-name {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .project-item .pi-meta {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 2px;
+            display: flex;
+            gap: 12px;
+        }
+        .project-item .pi-meta span { white-space: nowrap; }
+        .project-item .pi-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .project-item .pi-btn {
+            padding: 4px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            background: #fff;
+            transition: all var(--transition-fast);
+        }
+        .project-item .pi-btn:hover { background: var(--gray-100); }
+        .project-item .pi-btn.pi-load { color: var(--cyan-700); border-color: var(--cyan-300); }
+        .project-item .pi-btn.pi-load:hover { background: var(--cyan-50); }
+        .project-item .pi-btn.pi-del { color: var(--danger); border-color: #fecaca; }
+        .project-item .pi-btn.pi-del:hover { background: #fef2f2; }
+        .no-projects {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        /* =====================================================================
+           CHECKBOX GROUP
+           ===================================================================== */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm) var(--space-md);
+            padding-top: 4px;
+        }
+        .checkbox-group label {
+            display: flex !important;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.88rem !important;
+            font-weight: 400 !important;
+            color: var(--gray-700) !important;
+            cursor: pointer;
+            padding: 5px 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            transition: all var(--transition-fast);
+            user-select: none;
+        }
+        .checkbox-group label:hover {
+            border-color: var(--cyan-400);
+            background: var(--cyan-50);
+        }
+        .checkbox-group label:has(input:checked) {
+            border-color: var(--cyan-500);
+            background: var(--cyan-50);
+            color: var(--cyan-800) !important;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--cyan-600);
+        }
+
+        /* =====================================================================
+           AUTO-CALC BADGE
+           ===================================================================== */
+        .auto-calc-badge {
+            display: none;
+            font-size: 0.7rem;
+            background: var(--green-100);
+            color: var(--green-700);
+            padding: 2px 9px;
+            border-radius: 11px;
+            margin-left: 6px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+        .auto-calc-badge.show { display: inline; }
+
+        /* =====================================================================
+           LOCATION CASCADER
+           ===================================================================== */
+        .location-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+        }
+
+        /* =====================================================================
+           PRINT HEADER (hidden on screen)
+           ===================================================================== */
+        .print-header {
+            display: none;
+            text-align: center;
+            padding: 20px 0 16px;
+            border-bottom: 3px double var(--gray-700);
+            margin-bottom: 24px;
+        }
+        .print-header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+        .print-header .print-date { font-size: 0.82rem; color: var(--gray-500); }
+
+        /* =====================================================================
+           PRINT STYLES — A4 optimized
+           ===================================================================== */
+        @media print {
+            @page { size: A4; margin: 11mm 13mm; }
+
+            body {
+                background: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .app-header {
+                background: var(--cyan-700) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                box-shadow: none;
+                position: static;
+                padding: 14px 0;
+            }
+            .app-header h1 { font-size: 1.3rem; }
+            .app-header .subtitle { display: none; }
+
+            .toolbar { display: none !important; }
+            .project-bar { display: none !important; }
+
+            .container { max-width: 100%; padding: 0; }
+
+            .section {
+                box-shadow: none;
+                border: 1px solid #d1d5db;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 10px;
+                padding: 14px 18px;
+                border-radius: 4px;
+            }
+            .section:hover { box-shadow: none; }
+
+            .two-col-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .four-col-row { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
+            .four-col-row .section { padding: 8px 10px; }
+            .four-col-row .section-title { font-size: 0.75rem; }
+            .btn-add-entry { display: none !important; }
+            .btn-remove-entry { display: none !important; }
+            .form-grid { gap: 6px 12px; }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                background: #fff;
+                border: 1px solid #cbd5e1;
+                color: #000;
+                font-size: 0.8rem;
+            }
+            .form-group input[readonly] { background: #f8fafc; }
+            .form-group label { font-size: 0.74rem; }
+
+            .section-title {
+                font-size: 0.92rem;
+                margin-bottom: 10px;
+                padding-bottom: 7px;
+                color: #000;
+                border-bottom-color: #ccc;
+            }
+
+            .print-header { display: block; }
+            .custom-select-wrap .custom-input { display: block; }
+            .field-hint { display: none; }
+            .auto-calc-badge { display: none !important; }
+            .checkbox-group label {
+                border: 1px solid #ccc;
+                background: transparent !important;
+                color: #000 !important;
+            }
+            .location-row { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* =====================================================================
+           RESPONSIVE
+           ===================================================================== */
+        @media (max-width: 1200px) {
+            .four-col-row { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .form-grid,
+            .form-grid.cols-3 { grid-template-columns: 1fr; }
+            .four-col-row { grid-template-columns: 1fr; }
+            .container { padding: 14px 10px 40px; }
+            .section { padding: 18px 14px; }
+            .toolbar { gap: 6px; padding: 10px; }
+            .btn { padding: 7px 12px; font-size: 0.8rem; }
+            .location-row { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .toolbar .status { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ======================== Header ======================== -->
+<header class="app-header">
+    <h1>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        光伏项目信息表单
+    </h1>
+    <div class="subtitle">Photovoltaic Project Information Form</div>
+</header>
+
+<div class="container">
+
+    <!-- ======================== Toolbar ======================== -->
+    <div class="toolbar">
+        <button class="btn btn-accent" onclick="exportPDF()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            导出PDF
+        </button>
+        <button class="btn btn-primary" onclick="window.print()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 12H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            直接打印
+        </button>
+        <button class="btn btn-outline" onclick="saveDraft()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            保存草稿
+        </button>
+        <button class="btn btn-outline" onclick="loadDraft()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            恢复草稿
+        </button>
+        <button class="btn btn-danger" onclick="clearForm()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            清空表单
+        </button>
+        <span class="status" id="statusMsg"></span>
+    </div>
+
+    <!-- ======================== Project Management Bar ======================== -->
+    <div class="project-bar" id="projectBar">
+        <div class="pb-top">
+            <span class="pb-current-label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                当前项目
+            </span>
+            <select id="projectSelector" onchange="onProjectSelectorChange()">
+                <option value="">-- 未选择项目 --</option>
+            </select>
+            <input type="text" class="pb-search" id="projectSearch" placeholder="搜索项目名称..." oninput="onProjectSearch()">
+            <div class="pb-actions">
+                <button class="pb-btn pb-new" onclick="newProject()" title="新建项目">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    新建
+                </button>
+                <button class="pb-btn pb-save" onclick="saveProject()" title="保存当前项目">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    保存项目
+                </button>
+                <button class="pb-btn pb-delete" onclick="deleteCurrentProject()" title="删除当前项目">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    删除
+                </button>
+                <button class="pb-btn" onclick="toggleProjectList()" title="展开/收起项目列表" id="btnToggleList">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    列表
+                </button>
+            </div>
+        </div>
+        <div class="project-list-wrap" id="projectListWrap">
+            <div class="list-header">
+                <span class="count" id="projectCount">共 0 个项目</span>
+                <span style="font-size:0.7rem;color:var(--gray-400)">点击项目行加载，或使用上方下拉框快速切换</span>
+            </div>
+            <div class="project-list" id="projectList"></div>
+            <div class="no-projects" id="noProjects">暂无保存的项目，填写表单后点击「保存项目」</div>
+        </div>
+    </div>
+
+    <!-- ======================== Print Header ======================== -->
+    <div class="print-header">
+        <h1>光伏项目信息表</h1>
+        <div class="print-date" id="printDate"></div>
+    </div>
+
+    <!-- ======================== 一、项目基本信息 ======================== -->
+    <section class="section">
+        <div class="section-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            一、项目基本信息
+        </div>
+        <div class="form-grid">
+            <div class="form-group span-full">
+                <label>项目名称 <span class="required">*</span></label>
+                <input type="text" id="projectName" placeholder="请输入项目名称，如：XX公司屋顶分布式光伏发电项目" required>
+            </div>
+            <div class="form-group">
+                <label>项目编号</label>
+                <input type="text" id="projectCode" placeholder="如：PV-2026-001">
+            </div>
+            <div class="form-group">
+                <label>项目地点 <span class="required">*</span></label>
+                <div class="location-row">
+                    <select id="projectProvince" onchange="onProvinceChange()">
+                        <option value="">-- 省/直辖市 --</option>
+                    </select>
+                    <select id="projectCity">
+                        <option value="">-- 市/区 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>发电模式 <span class="required">*</span></label>
+                <select id="generationMode">
+                    <option value="">-- 请选择 --</option>
+                    <option value="全额上网">全额上网</option>
+                    <option value="自发自用余电上网">自发自用、余电上网</option>
+                    <option value="自发自用余电不上网">自发自用、余电不上网</option>
+                    <option value="离网型">离网型（独立系统）</option>
+                    <option value="混合型">混合型（光储充）</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>设计日期</label>
+                <input type="date" id="designDate">
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== 二、节能评估报告参数 ======================== -->
+    <section class="section">
+        <div class="section-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            二、节能评估报告参数
+        </div>
+        <div class="form-grid cols-3">
+            <div class="form-group">
+                <label>光伏可用面积 <span class="unit">(m²)</span></label>
+                <input type="number" id="availableArea" placeholder="例：5000" step="0.01" min="0" oninput="autoCalcModules()">
+            </div>
+            <div class="form-group">
+                <label>规划装机容量 <span class="unit">(kWp)</span></label>
+                <input type="number" id="installedCapacity" placeholder="例：800" step="0.01" min="0" oninput="autoCalcModules()">
+            </div>
+            <div class="form-group">
+                <label>年预计发电量 <span class="unit">(万kWh)</span></label>
+                <input type="number" id="annualGeneration" placeholder="例：80" step="0.01" min="0">
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== 三~六：四列横向布局 ======================== -->
+    <div class="four-col-row">
+        <!-- 三、光伏组件选型 -->
+        <section class="section">
+            <div class="section-title accent">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                三、光伏组件选型
+            </div>
+            <div class="form-grid cols-1">
+                <div class="form-group">
+                    <label>组件品牌/型号</label>
+                    <div class="custom-select-wrap">
+                        <select id="moduleModel" onchange="onModuleSelect(this.value)">
+                            <option value="">-- 请选择 --</option>
+                            <option value="none">无要求</option>
+                        </select>
+                        <input type="text" id="moduleModelCustom" class="custom-input" placeholder="自定义型号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>组件类型</label>
+                    <select id="moduleType">
+                        <option value="">-- 请选择 --</option>
+                        <option value="单晶硅">单晶硅 (Mono-Si)</option>
+                        <option value="多晶硅">多晶硅 (Poly-Si)</option>
+                        <option value="薄膜">薄膜 (Thin Film)</option>
+                        <option value="HJT">异质结 (HJT)</option>
+                        <option value="TOPCon">TOPCon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>单块功率 <span class="unit">(Wp)</span></label>
+                    <input type="number" id="modulePower" placeholder="例：580" step="1" min="0" oninput="autoCalcModules()">
+                </div>
+                <div class="form-group">
+                    <label>组件尺寸 长×宽<span class="unit">(mm)</span></label>
+                    <input type="text" id="moduleSize" placeholder="2278 × 1134">
+                </div>
+                <div class="form-group">
+                    <label>数量 <span class="unit">(块)</span><span class="auto-calc-badge" id="moduleCountBadge">自动计算</span></label>
+                    <input type="number" id="moduleCount" placeholder="自动计算" step="1" min="0">
+                </div>
+                <div class="form-group">
+                    <label>组件效率 <span class="unit">(%)</span></label>
+                    <input type="number" id="moduleEfficiency" placeholder="例：22.5" step="0.01" min="0" max="100">
+                </div>
+            </div>
+        </section>
+
+        <!-- 四、逆变器选型（多条目） -->
+        <section class="section">
+            <div class="section-title accent">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                四、逆变器选型
+            </div>
+            <div id="inverterEntries" class="entries-container"></div>
+            <button type="button" class="btn-add-entry" onclick="addInverterEntry()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                添加逆变器型号
+            </button>
+        </section>
+
+        <!-- 五、支架选型 -->
+        <section class="section">
+            <div class="section-title accent">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 22h20L12 2z"/><line x1="12" y1="9" x2="12" y2="22"/></svg>
+                五、支架选型
+            </div>
+            <div class="form-grid cols-1">
+                <div class="form-group">
+                    <label>支架类型 <span class="required">*</span></label>
+                    <select id="bracketType">
+                        <option value="">-- 请选择 --</option>
+                        <option value="固定支架">固定支架（Fixed）</option>
+                        <option value="可调支架">可调支架（Adjustable）</option>
+                        <option value="单轴跟踪">单轴跟踪支架</option>
+                        <option value="双轴跟踪">双轴跟踪支架</option>
+                        <option value="车棚支架">光伏车棚支架</option>
+                        <option value="水面支架">水面漂浮支架</option>
+                        <option value="BIPV">光伏建筑一体化 (BIPV)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>支架材质</label>
+                    <select id="bracketMaterial">
+                        <option value="">-- 请选择 --</option>
+                        <option value="热镀锌钢 Q235B">热镀锌钢 (Q235B)</option>
+                        <option value="热镀锌钢 Q355B">热镀锌钢 (Q355B)</option>
+                        <option value="铝合金 6063-T5">铝合金 (6063-T5)</option>
+                        <option value="铝合金 6005-T5">铝合金 (6005-T5)</option>
+                        <option value="不锈钢 304">不锈钢 (304)</option>
+                        <option value="不锈钢 316L">不锈钢 (316L)</option>
+                        <option value="镁铝锌 ZAM">镁铝锌 (ZAM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>支架型号/厂家</label>
+                    <div class="custom-select-wrap">
+                        <select id="bracketModel" onchange="onBracketSelect(this.value)">
+                            <option value="">-- 请选择 --</option>
+                            <option value="none">无要求</option>
+                        </select>
+                        <input type="text" id="bracketModelCustom" class="custom-input" placeholder="自定义型号/厂家">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>安装倾角 <span class="unit">(°)</span></label>
+                    <input type="number" id="tiltAngle" placeholder="例：25" step="0.1" min="0" max="90">
+                </div>
+                <div class="form-group">
+                    <label>基础形式</label>
+                    <select id="foundationType">
+                        <option value="">-- 请选择 --</option>
+                        <option value="混凝土独立基础">混凝土独立基础</option>
+                        <option value="混凝土条形基础">混凝土条形基础</option>
+                        <option value="螺旋桩">螺旋桩基础</option>
+                        <option value="灌注桩">灌注桩基础</option>
+                        <option value="配重式">配重式基础</option>
+                        <option value="预应力管桩">预应力管桩</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- 六、电缆选型（多条目） -->
+        <section class="section">
+            <div class="section-title accent">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v5"/><circle cx="12" cy="17" r="2"/></svg>
+                六、电缆规格选型
+            </div>
+            <div id="cableEntries" class="entries-container"></div>
+            <button type="button" class="btn-add-entry" onclick="addCableEntry()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                添加电缆规格
+            </button>
+        </section>
+    </div>
+
+    <!-- ======================== 七、特殊辅材 ======================== -->
+    <section class="section">
+        <div class="section-title accent">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            七、特殊辅材
+        </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>汇流箱型号</label>
+                <div class="custom-select-wrap">
+                    <select id="combinerBox" onchange="onCombinerSelect(this.value)">
+                        <option value="">-- 请选择 --</option>
+                        <option value="none">无要求</option>
+                    </select>
+                    <input type="text" id="combinerBoxCustom" class="custom-input" placeholder="自定义汇流箱型号">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>桥架/线槽规格</label>
+                <div class="custom-select-wrap">
+                    <select id="cableTray" onchange="onCableTraySelect(this.value)">
+                        <option value="">-- 请选择 --</option>
+                        <option value="none">无要求</option>
+                    </select>
+                    <input type="text" id="cableTrayCustom" class="custom-input" placeholder="自定义桥架/线槽规格">
+                </div>
+            </div>
+            <div class="form-group span-full">
+                <label>防雷接地材料（可多选）</label>
+                <div class="checkbox-group" id="groundingMaterials">
+                    <label><input type="checkbox" value="接地极（铜包钢）" onchange="updateGroundingField()"> 接地极（铜包钢）</label>
+                    <label><input type="checkbox" value="接地扁铁（镀锌扁钢）" onchange="updateGroundingField()"> 接地扁铁（镀锌扁钢）</label>
+                    <label><input type="checkbox" value="降阻剂" onchange="updateGroundingField()"> 降阻剂</label>
+                    <label><input type="checkbox" value="浪涌保护器(SPD)" onchange="updateGroundingField()"> 浪涌保护器 (SPD)</label>
+                    <label><input type="checkbox" value="等电位连接器" onchange="updateGroundingField()"> 等电位连接器</label>
+                    <label><input type="checkbox" value="接地模块" onchange="updateGroundingField()"> 接地模块</label>
+                </div>
+                <input type="hidden" id="groundingMaterialsValue">
+            </div>
+            <div class="form-group span-full">
+                <label>其他辅材说明</label>
+                <textarea id="otherMaterials" placeholder="MC4 连接器、通信线缆、数据采集器、监控系统、清洗系统……"></textarea>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== 八、备注 ======================== -->
+    <section class="section">
+        <div class="section-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            八、备注
+        </div>
+        <div class="form-grid cols-1">
+            <div class="form-group">
+                <textarea id="remarks" placeholder="设计依据说明、特殊技术要求、施工注意事项、其他需要补充的内容……" style="min-height:110px;"></textarea>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== Bottom Actions ======================== -->
+    <div class="toolbar" style="justify-content: center;">
+        <button class="btn btn-accent" onclick="exportPDF()" style="font-size:0.95rem;padding:12px 36px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            导出 PDF
+        </button>
+        <button class="btn btn-primary" onclick="window.print()" style="font-size:0.95rem;padding:12px 36px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 12H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            直接打印
+        </button>
+    </div>
+</div>
+
+<!-- ======================== SCRIPTS ======================== -->
+<script>
+/* =====================================================================
+   LOCATION DATA — Chinese provinces + major cities
+   ===================================================================== */
+const CITY_DATA = {
+    '北京市':   ['东城区','西城区','朝阳区','海淀区','丰台区','通州区','大兴区','顺义区','昌平区','房山区'],
+    '天津市':   ['和平区','河西区','南开区','河东区','河北区','滨海新区','西青区','北辰区','东丽区'],
+    '河北省':   ['石家庄市','唐山市','保定市','邯郸市','廊坊市','沧州市','邢台市','衡水市','秦皇岛市','张家口市','承德市'],
+    '山西省':   ['太原市','大同市','长治市','临汾市','运城市','晋城市','吕梁市','晋中市','忻州市'],
+    '内蒙古':   ['呼和浩特市','包头市','鄂尔多斯市','赤峰市','通辽市','呼伦贝尔市','巴彦淖尔市','乌兰察布市'],
+    '辽宁省':   ['沈阳市','大连市','鞍山市','抚顺市','锦州市','营口市','盘锦市','丹东市','朝阳市','葫芦岛市'],
+    '吉林省':   ['长春市','吉林市','四平市','松原市','通化市','白城市','延边州'],
+    '黑龙江省': ['哈尔滨市','齐齐哈尔市','大庆市','牡丹江市','佳木斯市','绥化市','鸡西市'],
+    '上海市':   ['黄浦区','浦东新区','徐汇区','静安区','长宁区','普陀区','虹口区','杨浦区','闵行区','宝山区','嘉定区','松江区'],
+    '江苏省':   ['南京市','苏州市','无锡市','常州市','南通市','徐州市','扬州市','泰州市','盐城市','淮安市','连云港市','镇江市','宿迁市'],
+    '浙江省':   ['杭州市','宁波市','温州市','嘉兴市','湖州市','绍兴市','金华市','台州市','衢州市','丽水市','舟山市'],
+    '安徽省':   ['合肥市','芜湖市','蚌埠市','马鞍山市','安庆市','滁州市','阜阳市','宿州市','六安市','宣城市','亳州市','淮南市'],
+    '福建省':   ['福州市','厦门市','泉州市','漳州市','莆田市','龙岩市','三明市','南平市','宁德市'],
+    '江西省':   ['南昌市','九江市','赣州市','宜春市','上饶市','吉安市','抚州市','景德镇市','萍乡市'],
+    '山东省':   ['济南市','青岛市','烟台市','潍坊市','临沂市','济宁市','淄博市','威海市','日照市','德州市','聊城市','菏泽市','泰安市','滨州市','东营市','枣庄市'],
+    '河南省':   ['郑州市','洛阳市','开封市','南阳市','新乡市','安阳市','焦作市','平顶山市','信阳市','商丘市','许昌市','驻马店市','周口市','濮阳市'],
+    '湖北省':   ['武汉市','宜昌市','襄阳市','荆州市','十堰市','黄石市','鄂州市','荆门市','孝感市','黄冈市','咸宁市'],
+    '湖南省':   ['长沙市','株洲市','湘潭市','衡阳市','岳阳市','常德市','郴州市','怀化市','永州市','邵阳市','益阳市','娄底市'],
+    '广东省':   ['广州市','深圳市','东莞市','佛山市','珠海市','中山市','惠州市','汕头市','江门市','湛江市','肇庆市','茂名市','揭阳市','清远市','韶关市','梅州市'],
+    '广西':     ['南宁市','柳州市','桂林市','北海市','玉林市','梧州市','防城港市','钦州市','百色市','河池市'],
+    '海南省':   ['海口市','三亚市','儋州市','琼海市','文昌市','万宁市'],
+    '重庆市':   ['渝中区','江北区','南岸区','渝北区','沙坪坝区','九龙坡区','大渡口区','巴南区','北碚区','涪陵区','万州区','黔江区'],
+    '四川省':   ['成都市','绵阳市','德阳市','宜宾市','泸州市','南充市','达州市','乐山市','攀枝花市','自贡市','内江市','广元市','遂宁市','眉山市'],
+    '贵州省':   ['贵阳市','遵义市','六盘水市','安顺市','毕节市','铜仁市','黔东南州','黔南州','黔西南州'],
+    '云南省':   ['昆明市','曲靖市','玉溪市','大理州','红河州','楚雄州','昭通市','保山市','丽江市','文山州'],
+    '西藏':     ['拉萨市','日喀则市','昌都市','林芝市','山南市','那曲市'],
+    '陕西省':   ['西安市','咸阳市','宝鸡市','渭南市','汉中市','延安市','榆林市','安康市'],
+    '甘肃省':   ['兰州市','天水市','白银市','武威市','张掖市','酒泉市','平凉市','庆阳市','定西市'],
+    '青海省':   ['西宁市','海东市','海西州','海南州','海北州','黄南州','果洛州','玉树州'],
+    '宁夏':     ['银川市','石嘴山市','吴忠市','固原市','中卫市'],
+    '新疆':     ['乌鲁木齐市','克拉玛依市','吐鲁番市','哈密市','昌吉州','伊犁州','巴州','阿克苏地区','喀什地区'],
+    '香港':     ['香港岛','九龙','新界'],
+    '澳门':     ['澳门半岛','氹仔','路环'],
+    '台湾省':   ['台北市','高雄市','台中市','台南市','新北市','桃园市','新竹市','基隆市','嘉义市'],
+};
+
+/* =====================================================================
+   EQUIPMENT DATABASES
+   ===================================================================== */
+const MODULE_DB = [
+    { brand: '隆基绿能 LR5-72HTH-580M',       power: 580, size: '2278×1134', efficiency: 22.5, type: '单晶硅' },
+    { brand: '隆基绿能 LR5-72HTH-600M',       power: 600, size: '2278×1134', efficiency: 23.2, type: '单晶硅' },
+    { brand: '隆基绿能 Hi-MO 7 LR7-72HGD-620M', power: 620, size: '2382×1134', efficiency: 23.0, type: '单晶硅' },
+    { brand: '晶科能源 JKM580N-72HL4-V',      power: 580, size: '2278×1134', efficiency: 22.5, type: '单晶硅' },
+    { brand: '晶科能源 JKM600N-78HL4-V',      power: 600, size: '2465×1134', efficiency: 22.8, type: '单晶硅' },
+    { brand: '晶科能源 Tiger Neo JKM720N-66HL4M-V', power: 720, size: '2384×1303', efficiency: 23.2, type: 'TOPCon' },
+    { brand: '天合光能 TSM-DEG21C.20-580W',   power: 580, size: '2172×1303', efficiency: 21.9, type: '单晶硅' },
+    { brand: '天合光能 TSM-NEG21C.20-720W',   power: 720, size: '2384×1303', efficiency: 23.2, type: 'TOPCon' },
+    { brand: '晶澳科技 JAM72S30-580/MR',      power: 580, size: '2278×1134', efficiency: 22.5, type: '单晶硅' },
+    { brand: '晶澳科技 JAM78D40-615/MR',      power: 615, size: '2465×1134', efficiency: 22.8, type: '单晶硅' },
+    { brand: '东方日升 RSM132-8-720BHDG',     power: 720, size: '2384×1303', efficiency: 23.2, type: 'HJT' },
+    { brand: '通威股份 TWMPD-72HS580',        power: 580, size: '2278×1134', efficiency: 22.5, type: '单晶硅' },
+];
+
+const INVERTER_DB = [
+    { brand: '华为 SUN2000-100KTL-M1',  power: 100, mppt: 10, voltage: '200-1000' },
+    { brand: '华为 SUN2000-110KTL-M2',  power: 110, mppt: 10, voltage: '200-1000' },
+    { brand: '华为 SUN2000-60KTL-M0',   power: 60,  mppt: 6,  voltage: '200-1000' },
+    { brand: '华为 SUN2000-40KTL-M3',   power: 40,  mppt: 4,  voltage: '200-1000' },
+    { brand: '华为 SUN2000-300KTL-H1',  power: 300, mppt: 12, voltage: '500-1500' },
+    { brand: '阳光电源 SG110CX',        power: 110, mppt: 9,  voltage: '200-1100' },
+    { brand: '阳光电源 SG60CX',         power: 60,  mppt: 6,  voltage: '200-1100' },
+    { brand: '阳光电源 SG320HX',        power: 320, mppt: 12, voltage: '500-1500' },
+    { brand: '固德威 GW100K-HT',        power: 100, mppt: 10, voltage: '200-1000' },
+    { brand: '固德威 GW60K-MT',         power: 60,  mppt: 6,  voltage: '200-1000' },
+    { brand: '锦浪科技 GCI-110K-5G',    power: 110, mppt: 9,  voltage: '200-1100' },
+    { brand: '锦浪科技 GCI-60K-5G',     power: 60,  mppt: 6,  voltage: '200-1000' },
+    { brand: '特变电工 TS100KTL',       power: 100, mppt: 10, voltage: '200-1000' },
+    { brand: '古瑞瓦特 MAX 100KTL3-X',  power: 100, mppt: 10, voltage: '200-1000' },
+];
+
+const BRACKET_DB = [
+    '中信博 Arctech — 固定支架系列',
+    '中信博 Arctech — 天际跟踪支架',
+    '清源科技 Clenergy — PV-ezRack 系列',
+    '爱康科技 Akcome — AK-SolarMount',
+    '安泰新能源 Antaisolar — 地面支架系统',
+    '迈贝特 Mibet — 水上光伏支架',
+    '帷盛科技 Versolsolar — 跟踪支架',
+    '国瑞能 Grace Solar — 车棚支架',
+];
+
+const DC_CABLE_DB = [
+    { spec: 'PV1-F 1×4mm²',   ratedVoltage: 'DC 1500V', ratedCurrent: '55A' },
+    { spec: 'PV1-F 1×6mm²',   ratedVoltage: 'DC 1500V', ratedCurrent: '70A' },
+    { spec: 'PV1-F 1×10mm²',  ratedVoltage: 'DC 1500V', ratedCurrent: '98A' },
+    { spec: 'PV1-F 1×16mm²',  ratedVoltage: 'DC 1500V', ratedCurrent: '132A' },
+    { spec: 'PV1-F 1×25mm²',  ratedVoltage: 'DC 1500V', ratedCurrent: '176A' },
+];
+
+const AC_CABLE_DB = [
+    { spec: 'YJV-0.6/1kV 3×35+1×16mm²' },
+    { spec: 'YJV-0.6/1kV 3×50+1×25mm²' },
+    { spec: 'YJV-0.6/1kV 3×70+1×35mm²' },
+    { spec: 'YJV-0.6/1kV 3×95+1×50mm²' },
+    { spec: 'YJV-0.6/1kV 3×120+1×70mm²' },
+    { spec: 'YJV-0.6/1kV 3×150+1×70mm²' },
+    { spec: 'YJV-0.6/1kV 3×185+1×95mm²' },
+    { spec: 'YJV-0.6/1kV 3×240+1×120mm²' },
+];
+
+const COMBINER_DB = [
+    '隆基 — 直流汇流箱 8进1出',
+    '隆基 — 直流汇流箱 16进1出',
+    '华为 — SmartDC 智能汇流箱 8路',
+    '华为 — SmartDC 智能汇流箱 16路',
+    '阳光电源 — 直流汇流箱 8路',
+    '阳光电源 — 直流汇流箱 16路',
+    '正泰 — 直流汇流箱 8路/16路',
+];
+
+const CABLE_TRAY_DB = [
+    '热镀锌槽式桥架 200×100mm',
+    '热镀锌槽式桥架 300×100mm',
+    '热镀锌槽式桥架 400×150mm',
+    '热镀锌梯式桥架 300×100mm',
+    '热镀锌梯式桥架 400×150mm',
+    '铝合金槽式桥架 200×100mm',
+    '不锈钢槽式桥架 200×100mm',
+    'PVC线槽 100×50mm',
+];
+
+/* =====================================================================
+   INIT — Populate all dropdowns
+   ===================================================================== */
+function initProvinceSelect() {
+    const sel = document.getElementById('projectProvince');
+    Object.keys(CITY_DATA).forEach(prov => {
+        const opt = document.createElement('option');
+        opt.value = prov;
+        opt.textContent = prov;
+        sel.appendChild(opt);
+    });
+}
+
+function onProvinceChange() {
+    const prov = document.getElementById('projectProvince').value;
+    const citySel = document.getElementById('projectCity');
+    citySel.innerHTML = '<option value="">-- 市/区 --</option>';
+    if (prov && CITY_DATA[prov]) {
+        CITY_DATA[prov].forEach(city => {
+            const opt = document.createElement('option');
+            opt.value = city;
+            opt.textContent = city;
+            citySel.appendChild(opt);
+        });
+    }
+}
+
+function populateSelect(id, data, textFn, extraOpt) {
+    const sel = document.getElementById(id);
+    data.forEach((item, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = textFn(item);
+        sel.appendChild(opt);
+    });
+    if (extraOpt) {
+        const opt = document.createElement('option');
+        opt.value = 'custom';
+        opt.textContent = extraOpt;
+        sel.appendChild(opt);
+    }
+}
+
+function initSelects() {
+    initProvinceSelect();
+    populateSelect('moduleModel', MODULE_DB, m => m.brand, '✎ 自定义型号...');
+    populateSelect('bracketModel', BRACKET_DB, b => b, '✎ 自定义型号/厂家...');
+    populateSelect('combinerBox', COMBINER_DB, c => c, '✎ 自定义型号...');
+    populateSelect('cableTray', CABLE_TRAY_DB, t => t, '✎ 自定义规格...');
+}
+
+/* =====================================================================
+   CUSTOM SELECT TOGGLE
+   ===================================================================== */
+function toggleCustomInput(selectEl, customInputEl) {
+    if (selectEl.value === 'custom') {
+        customInputEl.classList.add('show');
+        customInputEl.focus();
+    } else {
+        customInputEl.classList.remove('show');
+        customInputEl.value = '';
+    }
+}
+
+/* =====================================================================
+   SELECTION HANDLERS — auto-fill linked params
+   ===================================================================== */
+function onModuleSelect(value) {
+    const sel = document.getElementById('moduleModel');
+    const ci = document.getElementById('moduleModelCustom');
+    toggleCustomInput(sel, ci);
+    if (value !== '' && value !== 'custom') {
+        const m = MODULE_DB[parseInt(value)];
+        document.getElementById('modulePower').value = m.power;
+        document.getElementById('moduleSize').value = m.size;
+        document.getElementById('moduleEfficiency').value = m.efficiency;
+        document.getElementById('moduleType').value = m.type;
+        autoCalcModules();
+    }
+}
+
+function onInverterEntrySelect(idx, value) {
+    const sel = document.getElementById('inverterModel_' + idx);
+    const ci = document.getElementById('inverterModelCustom_' + idx);
+    toggleCustomInput(sel, ci);
+    if (value !== '' && value !== 'custom' && value !== 'none') {
+        const inv = INVERTER_DB[parseInt(value)];
+        document.getElementById('inverterPower_' + idx).value = inv.power;
+        document.getElementById('mpptCount_' + idx).value = inv.mppt;
+        document.getElementById('inverterVoltage_' + idx).value = inv.voltage;
+    }
+}
+
+function onBracketSelect(value) {
+    toggleCustomInput(document.getElementById('bracketModel'), document.getElementById('bracketModelCustom'));
+}
+function onCombinerSelect(value) {
+    toggleCustomInput(document.getElementById('combinerBox'), document.getElementById('combinerBoxCustom'));
+}
+function onCableTraySelect(value) {
+    toggleCustomInput(document.getElementById('cableTray'), document.getElementById('cableTrayCustom'));
+}
+
+/* =====================================================================
+   AUTO-CALC
+   ===================================================================== */
+function autoCalcModules() {
+    const area = parseFloat(document.getElementById('availableArea').value) || 0;
+    const capacity = parseFloat(document.getElementById('installedCapacity').value) || 0;
+    const power = parseFloat(document.getElementById('modulePower').value) || 0;
+    const badge = document.getElementById('moduleCountBadge');
+
+    if (power > 0 && capacity > 0) {
+        document.getElementById('moduleCount').value = Math.ceil(capacity * 1000 / power);
+        badge.classList.add('show');
+    } else if (power > 0 && area > 0) {
+        const sizeStr = document.getElementById('moduleSize').value;
+        let modArea = 2.58;
+        const m = sizeStr.match(/(\d+)\s*[×xX]\s*(\d+)/);
+        if (m) modArea = (parseFloat(m[1]) * parseFloat(m[2])) / 1_000_000;
+        document.getElementById('moduleCount').value = Math.floor(area / modArea);
+        badge.classList.add('show');
+    } else {
+        badge.classList.remove('show');
+    }
+}
+
+/* =====================================================================
+   DYNAMIC ENTRIES — Inverter & Cable multi-entry management
+   ===================================================================== */
+let inverterEntryCount = 0;
+let cableEntryCount = 0;
+const INVERTER_FIELD_IDS = ['inverterModel','inverterModelCustom','inverterPower','inverterCount','mpptCount','inverterVoltage'];
+const CABLE_FIELD_IDS = ['dcCable','acCable','cableBrand','cableTotalLength'];
+
+function makeInverterEntryHTML(idx) {
+    const selId = 'inverterModel_' + idx;
+    let opts = '<option value="">-- 请选择 --</option><option value="none">无要求</option>';
+    INVERTER_DB.forEach((inv, i) => { opts += '<option value="' + i + '">' + inv.brand + '</option>'; });
+    opts += '<option value="custom">✎ 自定义型号...</option>';
+
+    return `
+    <div class="entry-card" id="inverterEntry_${idx}">
+        <div class="entry-header">
+            <span class="entry-index">逆变器 #${idx + 1}</span>
+            <button type="button" class="btn-remove-entry" onclick="removeInverterEntry(${idx})" title="删除此条目">✕</button>
+        </div>
+        <div class="entry-fields">
+            <div class="form-group">
+                <label>品牌/型号</label>
+                <div class="custom-select-wrap">
+                    <select id="${selId}" onchange="onInverterEntrySelect(${idx}, this.value)">${opts}</select>
+                    <input type="text" id="inverterModelCustom_${idx}" class="custom-input" placeholder="自定义型号">
+                </div>
+            </div>
+            <div class="ef-row">
+                <div class="form-group">
+                    <label>额定功率(kW)</label>
+                    <input type="number" id="inverterPower_${idx}" placeholder="例：100" step="0.1" min="0">
+                </div>
+                <div class="form-group">
+                    <label>数量(台)</label>
+                    <input type="number" id="inverterCount_${idx}" placeholder="例：8" step="1" min="0">
+                </div>
+            </div>
+            <div class="ef-row">
+                <div class="form-group">
+                    <label>MPPT</label>
+                    <input type="text" id="mpptCount_${idx}" placeholder="例：10">
+                </div>
+                <div class="form-group">
+                    <label>电压范围(V)</label>
+                    <input type="text" id="inverterVoltage_${idx}" placeholder="200-1000">
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function makeCableEntryHTML(idx) {
+    let dcOpts = '<option value="">-- 请选择 --</option>';
+    DC_CABLE_DB.forEach((c, i) => { dcOpts += '<option value="' + i + '">' + c.spec + ' (' + c.ratedVoltage + ' / ' + c.ratedCurrent + ')</option>'; });
+    let acOpts = '<option value="">-- 请选择 --</option>';
+    AC_CABLE_DB.forEach((c, i) => { acOpts += '<option value="' + i + '">' + c.spec + '</option>'; });
+
+    return `
+    <div class="entry-card" id="cableEntry_${idx}">
+        <div class="entry-header">
+            <span class="entry-index">电缆 #${idx + 1}</span>
+            <button type="button" class="btn-remove-entry" onclick="removeCableEntry(${idx})" title="删除此条目">✕</button>
+        </div>
+        <div class="entry-fields">
+            <div class="ef-row">
+                <div class="form-group">
+                    <label>直流电缆</label>
+                    <select id="dcCable_${idx}">${dcOpts}</select>
+                </div>
+                <div class="form-group">
+                    <label>交流电缆</label>
+                    <select id="acCable_${idx}">${acOpts}</select>
+                </div>
+            </div>
+            <div class="ef-row">
+                <div class="form-group">
+                    <label>品牌/厂家</label>
+                    <input type="text" id="cableBrand_${idx}" placeholder="远东/上上/亨通">
+                </div>
+                <div class="form-group">
+                    <label>总长(m)</label>
+                    <input type="number" id="cableTotalLength_${idx}" placeholder="例：15000" step="1" min="0">
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function addInverterEntry(data) {
+    const idx = inverterEntryCount++;
+    document.getElementById('inverterEntries').insertAdjacentHTML('beforeend', makeInverterEntryHTML(idx));
+    if (data) {
+        setTimeout(() => {
+            document.getElementById('inverterModel_' + idx).value = data.model || '';
+            if (data.model === 'custom' && data.modelCustom) {
+                document.getElementById('inverterModelCustom_' + idx).classList.add('show');
+                document.getElementById('inverterModelCustom_' + idx).value = data.modelCustom;
+            }
+            document.getElementById('inverterPower_' + idx).value = data.power || '';
+            document.getElementById('inverterCount_' + idx).value = data.count || '';
+            document.getElementById('mpptCount_' + idx).value = data.mppt || '';
+            document.getElementById('inverterVoltage_' + idx).value = data.voltage || '';
+        }, 30);
+    }
+}
+
+function removeInverterEntry(idx) {
+    const entries = document.getElementById('inverterEntries');
+    if (entries.children.length <= 1) {
+        setStatus('至少保留一个逆变器条目', 'error');
+        return;
+    }
+    const el = document.getElementById('inverterEntry_' + idx);
+    if (el) el.remove();
+}
+
+function addCableEntry(data) {
+    const idx = cableEntryCount++;
+    document.getElementById('cableEntries').insertAdjacentHTML('beforeend', makeCableEntryHTML(idx));
+    if (data) {
+        setTimeout(() => {
+            document.getElementById('dcCable_' + idx).value = data.dcCable || '';
+            document.getElementById('acCable_' + idx).value = data.acCable || '';
+            document.getElementById('cableBrand_' + idx).value = data.brand || '';
+            document.getElementById('cableTotalLength_' + idx).value = data.length || '';
+        }, 30);
+    }
+}
+
+function removeCableEntry(idx) {
+    const entries = document.getElementById('cableEntries');
+    if (entries.children.length <= 1) {
+        setStatus('至少保留一个电缆条目', 'error');
+        return;
+    }
+    const el = document.getElementById('cableEntry_' + idx);
+    if (el) el.remove();
+}
+
+/* Collect all inverter entries as an array */
+function collectInverterEntries() {
+    const result = [];
+    for (let i = 0; i < inverterEntryCount; i++) {
+        const el = document.getElementById('inverterEntry_' + i);
+        if (!el) continue;
+        result.push({
+            model: document.getElementById('inverterModel_' + i)?.value || '',
+            modelCustom: document.getElementById('inverterModelCustom_' + i)?.value || '',
+            power: document.getElementById('inverterPower_' + i)?.value || '',
+            count: document.getElementById('inverterCount_' + i)?.value || '',
+            mppt: document.getElementById('mpptCount_' + i)?.value || '',
+            voltage: document.getElementById('inverterVoltage_' + i)?.value || '',
+        });
+    }
+    return result;
+}
+
+/* Collect all cable entries as an array */
+function collectCableEntries() {
+    const result = [];
+    for (let i = 0; i < cableEntryCount; i++) {
+        const el = document.getElementById('cableEntry_' + i);
+        if (!el) continue;
+        result.push({
+            dcCable: document.getElementById('dcCable_' + i)?.value || '',
+            acCable: document.getElementById('acCable_' + i)?.value || '',
+            brand: document.getElementById('cableBrand_' + i)?.value || '',
+            length: document.getElementById('cableTotalLength_' + i)?.value || '',
+        });
+    }
+    return result;
+}
+
+/* Restore inverter entries from saved data array */
+function restoreInverterEntries(entries) {
+    document.getElementById('inverterEntries').innerHTML = '';
+    inverterEntryCount = 0;
+    if (!entries || entries.length === 0) {
+        addInverterEntry();
+    } else {
+        entries.forEach(e => addInverterEntry(e));
+    }
+}
+
+/* Restore cable entries from saved data array */
+function restoreCableEntries(entries) {
+    document.getElementById('cableEntries').innerHTML = '';
+    cableEntryCount = 0;
+    if (!entries || entries.length === 0) {
+        addCableEntry();
+    } else {
+        entries.forEach(e => addCableEntry(e));
+    }
+}
+
+/* =====================================================================
+   GROUNDING CHECKBOXES
+   ===================================================================== */
+function updateGroundingField() {
+    const vals = Array.from(document.querySelectorAll('#groundingMaterials input[type="checkbox"]:checked')).map(cb => cb.value);
+    document.getElementById('groundingMaterialsValue').value = vals.join('、');
+}
+
+/* =====================================================================
+   FORM DATA COLLECTION
+   ===================================================================== */
+function getFormData() {
+    function selText(id) {
+        const s = document.getElementById(id);
+        return s.selectedIndex >= 0 ? s.options[s.selectedIndex].text : '';
+    }
+    function selOrCustom(selId, custId) {
+        const s = document.getElementById(selId);
+        if (s.value === 'custom') return document.getElementById(custId).value;
+        return s.selectedIndex >= 0 && s.value !== '' ? s.options[s.selectedIndex].text : '';
+    }
+    function projectLocation() {
+        const prov = document.getElementById('projectProvince').value;
+        const city = document.getElementById('projectCity').value;
+        if (prov && city) return prov + ' ' + city;
+        if (prov) return prov;
+        return '';
+    }
+
+    return {
+        项目名称: document.getElementById('projectName').value,
+        项目编号: document.getElementById('projectCode').value,
+        项目地点: projectLocation(),
+        发电模式: document.getElementById('generationMode').value,
+        设计日期: document.getElementById('designDate').value,
+        光伏可用面积: document.getElementById('availableArea').value ? document.getElementById('availableArea').value + ' m²' : '',
+        规划装机容量: document.getElementById('installedCapacity').value ? document.getElementById('installedCapacity').value + ' kWp' : '',
+        年预计发电量: document.getElementById('annualGeneration').value ? document.getElementById('annualGeneration').value + ' 万kWh' : '',
+        组件型号: selOrCustom('moduleModel', 'moduleModelCustom'),
+        组件类型: document.getElementById('moduleType').value,
+        单块功率: document.getElementById('modulePower').value ? document.getElementById('modulePower').value + ' Wp' : '',
+        组件尺寸: document.getElementById('moduleSize').value,
+        组件数量: document.getElementById('moduleCount').value ? document.getElementById('moduleCount').value + ' 块' : '',
+        组件效率: document.getElementById('moduleEfficiency').value ? document.getElementById('moduleEfficiency').value + ' %' : '',
+        逆变器配置: collectInverterEntries().map((e, i) => { const mt = e.model === 'custom' ? e.modelCustom : (e.model !== '' && e.model !== 'none' ? (INVERTER_DB[parseInt(e.model)]?.brand || '') : (e.model === 'none' ? '无要求' : '')); return '#' + (i+1) + ' ' + (mt || '未选') + (e.power ? ' / ' + e.power + 'kW' : '') + (e.count ? ' x' + e.count + '台' : ''); }).join('; ') || '',
+        支架类型: document.getElementById('bracketType').value,
+        支架材质: document.getElementById('bracketMaterial').value,
+        支架型号: selOrCustom('bracketModel', 'bracketModelCustom'),
+        安装倾角: document.getElementById('tiltAngle').value ? document.getElementById('tiltAngle').value + ' °' : '',
+        基础形式: document.getElementById('foundationType').value,
+        电缆配置: collectCableEntries().map((e, i) => { const dc = e.dcCable !== '' ? (DC_CABLE_DB[parseInt(e.dcCable)]?.spec || '') : ''; const ac = e.acCable !== '' ? (AC_CABLE_DB[parseInt(e.acCable)]?.spec || '') : ''; return '#' + (i+1) + ' ' + ([dc, ac].filter(Boolean).join(' / ') || '未选') + (e.brand ? ' [' + e.brand + ']' : '') + (e.length ? ' ' + e.length + 'm' : ''); }).join('; ') || '',
+        汇流箱型号: selOrCustom('combinerBox', 'combinerBoxCustom'),
+        桥架线槽规格: selOrCustom('cableTray', 'cableTrayCustom'),
+        防雷接地材料: document.getElementById('groundingMaterialsValue').value,
+        其他辅材说明: document.getElementById('otherMaterials').value,
+        备注: document.getElementById('remarks').value,
+    };
+}
+
+/* =====================================================================
+   VALIDATION
+   ===================================================================== */
+function validateForm() {
+    const errors = [];
+    if (!document.getElementById('projectName').value.trim()) errors.push('请填写项目名称');
+    if (!document.getElementById('projectProvince').value) errors.push('请选择项目所在省份');
+    if (!document.getElementById('generationMode').value) errors.push('请选择发电模式');
+    if (errors.length > 0) {
+        alert('请完善以下必填信息：\n' + errors.map(e => '• ' + e).join('\n'));
+        return false;
+    }
+    return true;
+}
+
+/* =====================================================================
+   PDF EXPORT
+   ===================================================================== */
+function exportPDF() {
+    if (!validateForm()) return;
+    const now = new Date();
+    document.getElementById('printDate').textContent =
+        '打印日期：' + now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日';
+    document.title = '光伏项目信息表 - ' + (document.getElementById('projectName').value || '未命名项目');
+    setStatus('正在准备打印...', 'success');
+    setTimeout(() => window.print(), 300);
+}
+
+/* =====================================================================
+   DRAFT SAVE / LOAD
+   ===================================================================== */
+function saveDraft() {
+    const raw = collectRawData();
+    localStorage.setItem('pv_project_draft', JSON.stringify(raw));
+    setStatus('草稿已保存 (' + new Date().toLocaleTimeString() + ')', 'success');
+}
+
+function loadDraft() {
+    const raw = localStorage.getItem('pv_project_draft');
+    if (!raw) { setStatus('没有找到已保存的草稿', 'error'); return; }
+    try {
+        const d = JSON.parse(raw);
+        restoreRawData(d);
+        setStatus('草稿已恢复 (' + new Date().toLocaleTimeString() + ')', 'success');
+    } catch (e) {
+        setStatus('草稿数据损坏，无法恢复', 'error');
+    }
+}
+
+/* =====================================================================
+   CLEAR FORM
+   ===================================================================== */
+function clearForm() {
+    if (!confirm('确定要清空所有已填写的内容吗？此操作不可撤销。')) return;
+    document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea').forEach(el => el.value = '');
+    document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+    document.querySelectorAll('.custom-input').forEach(el => { el.classList.remove('show'); el.value = ''; });
+    document.querySelectorAll('#groundingMaterials input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.getElementById('groundingMaterialsValue').value = '';
+    document.getElementById('projectCity').innerHTML = '<option value="">-- 市/区 --</option>';
+    document.getElementById('moduleCountBadge').classList.remove('show');
+    // Reset dynamic entries
+    restoreInverterEntries([]);
+    restoreCableEntries([]);
+    currentProjectId = null;
+    updateProjectSelector();
+    setStatus('表单已清空', '');
+}
+
+/* =====================================================================
+   PROJECT MANAGEMENT — Multi-project CRUD
+   ===================================================================== */
+const STORAGE_KEY = 'pv_projects';
+let currentProjectId = null; // ID of the project currently loaded in the form
+
+function getProjects() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch (e) { return []; }
+}
+
+function saveProjects(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+function collectRawData() {
+    const raw = {};
+    const ids = ['projectName','projectCode','projectProvince','projectCity','generationMode','designDate',
+        'availableArea','installedCapacity','annualGeneration',
+        'moduleModel','moduleModelCustom','moduleType','modulePower','moduleSize','moduleCount','moduleEfficiency',
+        'bracketType','bracketMaterial','bracketModel','bracketModelCustom','tiltAngle','foundationType',
+        'combinerBox','combinerBoxCustom','cableTray','cableTrayCustom',
+        'otherMaterials','remarks'];
+    ids.forEach(id => { raw[id] = document.getElementById(id).value; });
+    raw.groundingCheckboxes = Array.from(document.querySelectorAll('#groundingMaterials input[type="checkbox"]:checked')).map(cb => cb.value);
+    raw.inverterEntries = collectInverterEntries();
+    raw.cableEntries = collectCableEntries();
+    return raw;
+}
+
+function restoreRawData(d) {
+    Object.keys(d).forEach(key => {
+        if (key === 'groundingCheckboxes') {
+            document.querySelectorAll('#groundingMaterials input[type="checkbox"]').forEach(cb => {
+                cb.checked = (d.groundingCheckboxes || []).includes(cb.value);
+            });
+            updateGroundingField();
+        } else if (key === 'inverterEntries') {
+            restoreInverterEntries(d[key]);
+        } else if (key === 'cableEntries') {
+            restoreCableEntries(d[key]);
+        } else if (key === 'projectProvince') {
+            const el = document.getElementById(key);
+            if (el) { el.value = d[key] || ''; onProvinceChange(); }
+        } else if (key !== 'projectCity') {
+            const el = document.getElementById(key);
+            if (el) el.value = d[key] || '';
+        }
+    });
+    // Restore city after province change populates the city dropdown
+    if (d.projectCity) {
+        setTimeout(() => {
+            const cityEl = document.getElementById('projectCity');
+            if (cityEl) cityEl.value = d.projectCity;
+        }, 60);
+    }
+    // Show custom inputs if needed
+    ['moduleModel','bracketModel','combinerBox','cableTray'].forEach(id => {
+        if (d[id] === 'custom') {
+            const ci = document.getElementById(id + 'Custom');
+            if (ci) ci.classList.add('show');
+        }
+    });
+}
+
+function saveProject() {
+    if (!document.getElementById('projectName').value.trim()) {
+        setStatus('请先填写项目名称再保存', 'error');
+        return;
+    }
+    const raw = collectRawData();
+    let projects = getProjects();
+
+    if (currentProjectId) {
+        // Update existing project
+        const idx = projects.findIndex(p => p.id === currentProjectId);
+        if (idx >= 0) {
+            projects[idx].name = raw.projectName;
+            projects[idx].location = (raw.projectProvince || '') + (raw.projectCity ? ' ' + raw.projectCity : '');
+            projects[idx].generationMode = raw.generationMode;
+            projects[idx].updatedAt = Date.now();
+            projects[idx].rawData = raw;
+            setStatus('项目「' + raw.projectName + '」已更新', 'success');
+        }
+    } else {
+        // Create new project
+        const project = {
+            id: 'pv_' + Date.now(),
+            name: raw.projectName,
+            location: (raw.projectProvince || '') + (raw.projectCity ? ' ' + raw.projectCity : ''),
+            generationMode: raw.generationMode,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            rawData: raw
+        };
+        projects.unshift(project);
+        currentProjectId = project.id;
+        setStatus('项目「' + raw.projectName + '」已保存', 'success');
+    }
+
+    saveProjects(projects);
+    renderProjectList();
+    updateProjectSelector();
+}
+
+function loadProject(id) {
+    const projects = getProjects();
+    const project = projects.find(p => p.id === id);
+    if (!project) { setStatus('项目未找到', 'error'); return; }
+
+    currentProjectId = id;
+    restoreRawData(project.rawData);
+    renderProjectList();
+    updateProjectSelector();
+    setStatus('已加载项目「' + project.name + '」', 'success');
+}
+
+function deleteProject(id) {
+    const projects = getProjects();
+    const project = projects.find(p => p.id === id);
+    if (!project) return;
+    if (!confirm('确定要删除项目「' + project.name + '」吗？此操作不可撤销。')) return;
+
+    const filtered = projects.filter(p => p.id !== id);
+    saveProjects(filtered);
+
+    if (currentProjectId === id) {
+        currentProjectId = null;
+        clearForm();
+    }
+
+    renderProjectList();
+    updateProjectSelector();
+    setStatus('项目「' + project.name + '」已删除', '');
+}
+
+function deleteCurrentProject() {
+    if (!currentProjectId) { setStatus('请先选择或加载一个项目', 'error'); return; }
+    deleteProject(currentProjectId);
+}
+
+function newProject() {
+    if (currentProjectId && document.getElementById('projectName').value.trim()) {
+        if (!confirm('当前表单有未保存的内容，确定要新建项目吗？建议先保存当前项目。')) return;
+    }
+    currentProjectId = null;
+    clearForm();
+    renderProjectList();
+    updateProjectSelector();
+    setStatus('已创建新项目，请填写信息后保存', '');
+    document.getElementById('projectName').focus();
+}
+
+function onProjectSearch() {
+    const query = document.getElementById('projectSearch').value.trim().toLowerCase();
+    renderProjectList(query);
+    // Auto-open list when searching
+    if (query) {
+        document.getElementById('projectListWrap').classList.add('open');
+    }
+}
+
+function onProjectSelectorChange() {
+    const id = document.getElementById('projectSelector').value;
+    if (id) {
+        if (currentProjectId && document.getElementById('projectName').value.trim() &&
+            id !== currentProjectId &&
+            !confirm('切换项目将丢失当前未保存的修改。确定切换吗？')) {
+            updateProjectSelector(); // Reset selector to current
+            return;
+        }
+        loadProject(id);
+    }
+}
+
+function toggleProjectList() {
+    const wrap = document.getElementById('projectListWrap');
+    wrap.classList.toggle('open');
+    if (wrap.classList.contains('open')) {
+        renderProjectList();
+    }
+}
+
+function updateProjectSelector() {
+    const sel = document.getElementById('projectSelector');
+    const projects = getProjects();
+    sel.innerHTML = '<option value="">-- 未选择项目 --</option>';
+    projects.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name + (p.location ? ' | ' + p.location : '');
+        if (p.id === currentProjectId) opt.selected = true;
+        sel.appendChild(opt);
+    });
+}
+
+function renderProjectList(filter) {
+    const projects = getProjects();
+    const listEl = document.getElementById('projectList');
+    const countEl = document.getElementById('projectCount');
+    const noEl = document.getElementById('noProjects');
+
+    let filtered = projects;
+    if (filter) {
+        filtered = projects.filter(p =>
+            p.name.toLowerCase().includes(filter) ||
+            (p.location || '').toLowerCase().includes(filter) ||
+            (p.generationMode || '').toLowerCase().includes(filter)
+        );
+    }
+
+    countEl.textContent = '共 ' + filtered.length + ' 个项目' + (filter ? '（已过滤）' : '');
+
+    if (filtered.length === 0) {
+        listEl.innerHTML = '';
+        noEl.style.display = 'block';
+        return;
+    }
+
+    noEl.style.display = 'none';
+    listEl.innerHTML = filtered.map(p => {
+        const isActive = p.id === currentProjectId;
+        const date = new Date(p.updatedAt || p.createdAt);
+        const dateStr = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+        return `
+            <div class="project-item${isActive ? ' active' : ''}" onclick="loadProject('${p.id}')">
+                <div class="pi-info">
+                    <div class="pi-name">${escapeHTML(p.name) || '未命名项目'}</div>
+                    <div class="pi-meta">
+                        ${p.location ? '<span>📍 ' + escapeHTML(p.location) + '</span>' : ''}
+                        ${p.generationMode ? '<span>⚡ ' + escapeHTML(p.generationMode) + '</span>' : ''}
+                        <span>🕐 ' + dateStr + '</span>
+                    </div>
+                </div>
+                <div class="pi-actions">
+                    <button class="pi-btn pi-load" onclick="event.stopPropagation();loadProject('${p.id}')">加载</button>
+                    <button class="pi-btn pi-del" onclick="event.stopPropagation();deleteProject('${p.id}')">删除</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+/* =====================================================================
+   STATUS TOAST
+   ===================================================================== */
+function setStatus(msg, type) {
+    const el = document.getElementById('statusMsg');
+    el.textContent = msg;
+    el.className = 'status ' + type;
+    if (msg) setTimeout(() => { el.textContent = ''; el.className = 'status'; }, 4000);
+}
+
+/* =====================================================================
+   KEYBOARD SHORTCUTS
+   ===================================================================== */
+document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveDraft(); }
+});
+
+/* =====================================================================
+   BOOT
+   ===================================================================== */
+window.addEventListener('DOMContentLoaded', function() {
+    initSelects();
+    const today = new Date();
+    document.getElementById('designDate').value =
+        today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+    // Init dynamic entries (1 empty each)
+    addInverterEntry();
+    addCableEntry();
+
+    // Init project management
+    updateProjectSelector();
+    renderProjectList();
+
+    if (localStorage.getItem('pv_project_draft')) {
+        setStatus('检测到已保存的草稿，点击"恢复草稿"加载', '');
+    }
+});
+</script>
+
+</body>
+</html>
